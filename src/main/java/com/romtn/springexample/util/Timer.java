@@ -31,7 +31,9 @@ public class Timer {
         Iterator<Long> iterator = times.iterator();
         Long last = iterator.next();
         while (iterator.hasNext()) {
-            millis.add((iterator.next() - last) / 1_000_000);
+            Long next = iterator.next();
+            millis.add((next - last) / 1_000_000);
+            last = next;
         }
         return millis;
     }

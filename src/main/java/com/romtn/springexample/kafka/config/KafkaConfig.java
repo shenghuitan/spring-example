@@ -26,8 +26,8 @@ public class KafkaConfig implements Kafkas {
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 4 * 1024 * 1024);
-        props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 32 * 1024 * 1024);
+//        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 64 * 1024);
+//        props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 32 * 1024 * 1024);
         // See https://kafka.apache.org/documentation/#producerconfigs for more properties
         return props;
     }
@@ -60,8 +60,8 @@ public class KafkaConfig implements Kafkas {
             ConcurrentKafkaListenerContainerFactory<String, String> concurrentKafkaListenerContainerFactory) {
 
         ConcurrentMessageListenerContainer<String, String> repliesContainer =
-                concurrentKafkaListenerContainerFactory.createContainer("replies");
-        repliesContainer.getContainerProperties().setGroupId("repliesGroup");
+                concurrentKafkaListenerContainerFactory.createContainer(Kafkas.Topics.test0);
+        repliesContainer.getContainerProperties().setGroupId(Kafkas.GroupIds.myGroupId);
         repliesContainer.setAutoStartup(false);
         return repliesContainer;
     }
@@ -74,17 +74,7 @@ public class KafkaConfig implements Kafkas {
         return factory;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////
-
-    @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
-        factory.setConcurrency(16);
-        factory.getContainerProperties().setPollTimeout(3000);
-        return factory;
-    }
+    //////////////////////////////////////
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
@@ -100,5 +90,15 @@ public class KafkaConfig implements Kafkas {
         return props;
     }
 
+
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setConcurrency(16);
+        factory.getContainerProperties().setPollTimeout(3000);
+        return factory;
+    }
 
 }
