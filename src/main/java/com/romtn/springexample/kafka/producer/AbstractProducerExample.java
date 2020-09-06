@@ -8,7 +8,7 @@ import net.bytebuddy.utility.RandomString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.support.SendResult;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.util.Map;
@@ -21,22 +21,25 @@ public abstract class AbstractProducerExample implements Kafkas.Topics {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     protected long WAIT_MILLIS = 0;     // 测试启动等待时间
-    protected long LOGIC_MILLIS = 0;    // 逻辑处理时间
+    protected long LOGIC_MILLIS = 1;    // 逻辑处理时间
 
     final String topic = test1;
 
     int threads = 2;    // 执行线程数
 
-    @Autowired
-    KafkaConfig kafkaConfig;
-
-    final int size = 100_000;
+    final int size = 10_000;
     CountDownLatch sendLatch = new CountDownLatch(size);
     CountDownLatch replyLatch = new CountDownLatch(size);
     AtomicInteger failCount = new AtomicInteger(0);
 
     protected final int KEY_LENGTH = 32;
     protected final int DATA_LENGTH = 1024;
+
+    @Autowired
+    KafkaConfig kafkaConfig;
+
+    @Autowired
+    KafkaTemplate<String, String> kafkaTemplate;
 
     protected void send() throws InterruptedException {
         logger.info("+++ send start");
@@ -74,6 +77,7 @@ public abstract class AbstractProducerExample implements Kafkas.Topics {
                 .put("reply.cost", replyTimer.getCosts() + "ms")
                 .put("failCount", failCount)
                 .put("producerConfigs", kafkaConfig.producerConfigs())
+//                .put("producer.metrics", getKafkaTemplate().metrics())
                 .getMap();
 
         logger.info("--- send end, {}", map);
@@ -125,5 +129,7 @@ public abstract class AbstractProducerExample implements Kafkas.Topics {
         };
     }
 
-
+    public KafkaTemplate<String, String> getKafkaTemplate() {
+        return kafkaTemplate;
+    }
 }

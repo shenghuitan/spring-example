@@ -1,6 +1,7 @@
 package com.romtn.springexample.kafka.producer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +24,9 @@ public class ReplyingProducerExample extends AbstractProducerExample {
         });
     }
 
+    @Override
+    public KafkaTemplate<String, String> getKafkaTemplate() {
+        return replyingKafkaTemplate;
+    }
 
 }
