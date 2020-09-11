@@ -30,7 +30,7 @@ public class Init {
     @Autowired
     private ReplyingProducerExample replyingProducerExample;
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         new Thread(() -> {
             Stream.of(
