@@ -66,14 +66,14 @@ public class LinkedBlockingQueueTest {
     public void consume() {
         new Thread(() -> {
             for (; ; ) {
-                ExampleEvent event = queue.poll();
-                if (event != null) {
-                    counter.read.getAndIncrement();
-                    try {
+                try {
+                    ExampleEvent event = queue.take();
+                    if (event != null) {
+                        counter.read.getAndIncrement();
                         handler.onEvent(event);
-                    } catch (Exception e) {
-                        logger.error("", e);
                     }
+                } catch (Exception e) {
+                    logger.error("", e);
                 }
             }
         }).start();
