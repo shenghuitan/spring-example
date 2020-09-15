@@ -22,6 +22,10 @@ public class ExampleEventSingleTest {
     ExampleEventTranslator translator;
 
     final int BUFFER_SIZE = 1024;
+    final int POOL_SIZE = 1;
+    final long KEEP_ALIVE_TIME = 0L;
+
+    final long limit = 100_000_000;
 
     ThreadPoolExecutor producerExecutor;
 
