@@ -12,12 +12,16 @@ public class ExampleEventHandler implements EventHandler<ExampleEvent>, WorkHand
     @Override
     public void onEvent(ExampleEvent event) throws Exception {
         ExampleEventFactory.counter.sent.getAndIncrement();
-        logger.info("onEvent event:{}", event);
+        if (logger.isDebugEnabled()) {
+            logger.debug("onEvent event:{}", event);
+        }
     }
 
     @Override
     public void onEvent(ExampleEvent event, long sequence, boolean endOfBatch) throws Exception {
         ExampleEventFactory.counter.sent.getAndIncrement();
-        logger.info("onEvent event:{}", event);
+        if (logger.isDebugEnabled()) {
+            logger.debug("onEvent event:{}", event);
+        }
     }
 }

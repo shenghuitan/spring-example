@@ -12,7 +12,9 @@ public class ExampleEventTranslator implements EventTranslatorOneArg<ExampleEven
     public void translateTo(ExampleEvent event, long sequence, ExampleEvent arg0) {
         ExampleEventFactory.counter.read.getAndIncrement();
         event.setId(arg0.getId());
-        logger.info("translateTo arg0:{}", arg0);
+        if (logger.isDebugEnabled()) {
+            logger.info("translateTo arg0:{}", arg0);
+        }
     }
 
 }

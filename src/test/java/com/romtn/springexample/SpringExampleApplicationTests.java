@@ -14,7 +14,7 @@ class SpringExampleApplicationTests {
 	@Test
 	void contextLoads() {
 		Timer timer = Timer.init();
-		logger.info("contextLoads costs:{}ms", timer.mark().getCosts());
+		logger.info("contextLoads costs:{}ms", timer.mark().costs());
 	}
 
 }

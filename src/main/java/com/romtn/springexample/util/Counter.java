@@ -13,6 +13,7 @@ public class Counter {
     public AtomicLong failed = new AtomicLong(0);
     public AtomicLong invalid = new AtomicLong(0);
     public AtomicLong length = new AtomicLong(0);
+    public AtomicLong limit = new AtomicLong(0);
 
 
     @Override
@@ -27,6 +28,7 @@ public class Counter {
         sb.append(", failed=").append(failed);
         sb.append(", invalid=").append(invalid);
         sb.append(", length=").append(length);
+        sb.append(", limit=").append(limit);
         sb.append('}');
         return sb.toString();
     }

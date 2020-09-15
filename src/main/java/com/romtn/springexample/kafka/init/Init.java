@@ -49,7 +49,7 @@ public class Init {
             producerExample.execute();
             timer.mark();
         }
-        logger.info("--- {} execute costs:{}ms", producerExample, timer.getCosts());
+        logger.info("--- {} execute costs:{}ms", producerExample, timer.costs());
     }
 
 }

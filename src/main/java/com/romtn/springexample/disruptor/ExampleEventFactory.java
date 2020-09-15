@@ -9,6 +9,7 @@ public class ExampleEventFactory implements EventFactory<ExampleEvent> {
 
     @Override
     public ExampleEvent newInstance() {
+        counter.length.getAndIncrement();
         return new ExampleEvent();
     }
 
