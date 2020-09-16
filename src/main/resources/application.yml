@@ -1,0 +1,5 @@
+spring:
+  kafka:
+    bootstrap-servers: kafkafs001-test001-pub.yy.com:8101,kafkafs001-test002-pub.yy.com:8101,kafkafs001-test003-pub.yy.com:8101,kafkafs001-test004-pub.yy.com:8101,kafkafs001-test005-pub.yy.com:8101
+    consumer:
+      topics: test0,test1

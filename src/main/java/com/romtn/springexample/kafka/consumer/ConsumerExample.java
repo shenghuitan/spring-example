@@ -12,9 +12,10 @@ public class ConsumerExample implements Kafkas, Kafkas.Topics, Kafkas.GroupIds {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
-//    @KafkaListener(topics = myTopic, groupId = myGroupId)
-    public void listen(ConsumerRecord<?, ?> cr) throws Exception {
-        logger.info(cr.toString());
+    @KafkaListener(topics = {topics}, groupId = myGroupId)
+    public void listen(ConsumerRecord<?, ?> record) throws Exception {
+        record.topic();
+        logger.info(record.toString());
     }
 
 }
