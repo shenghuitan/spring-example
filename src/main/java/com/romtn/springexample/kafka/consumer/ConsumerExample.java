@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-@Service
+//@Service
 public class ConsumerExample implements Kafkas, Kafkas.Topics, Kafkas.GroupIds {
 
     Logger logger = LoggerFactory.getLogger(getClass());
