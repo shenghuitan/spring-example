@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 @Service
-public class InitConsumer implements Kafkas.Topics {
+public class InitConsumer implements Kafkas.Topics, Kafkas.GroupIds {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -19,11 +19,19 @@ public class InitConsumer implements Kafkas.Topics {
     @PostConstruct
     public void init() {
         new Thread(() -> {
-            consumerContainer.restart(new String[]{test0}, new MessageListenerExample());
-            logger.info("+++ init restart, properties:{}", consumerContainer.listenerContainer.getContainerProperties());
+            String groupId = myGroupId;
 
-            consumerContainer.restart(new String[]{test0, test1}, new BatchMessageListenerExample());
-            logger.info("--- init restart, properties:{}", consumerContainer.listenerContainer.getContainerProperties());
+            String topic = test0;
+            consumerContainer.start(groupId, topic, new MessageListenerExample());
+            logger.info("+++ init start, groupId:{}, topic:{}", groupId, topic);
+
+            topic = test1;
+            consumerContainer.start(groupId, topic, new BatchMessageListenerExample());
+            logger.info("+++ init start, groupId:{}, topic:{}", groupId, topic);
+
+            topic = test0;
+            consumerContainer.stop(groupId, topic);
+            logger.info("+++ init stop, groupId:{}, topic:{}", groupId, topic);
         }).start();
     }
 
