@@ -13,6 +13,8 @@ public interface Kafkas {
         String test0 = "test0";
         String test1 = "test1";
         String test2 = "test2";
+        String test3 = "test3";
+        String test4 = "test4";
     }
 
     interface GroupIds {

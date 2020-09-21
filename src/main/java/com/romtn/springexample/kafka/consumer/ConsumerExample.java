@@ -7,13 +7,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-//@Service
+@Service
 public class ConsumerExample implements Kafkas, Kafkas.Topics, Kafkas.GroupIds {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @KafkaListener(topics = {topics}, groupId = myGroupId)
     public void listen(ConsumerRecord<?, ?> record) throws Exception {
+        record.topic();
+        logger.info(record.toString());
+    }
+
+    @KafkaListener(topics = {test2}, groupId = myGroupId)
+    public void listen2(ConsumerRecord<?, ?> record) throws Exception {
         record.topic();
         logger.info(record.toString());
     }
