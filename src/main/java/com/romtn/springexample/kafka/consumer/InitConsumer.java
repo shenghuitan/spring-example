@@ -16,8 +16,15 @@ public class InitConsumer implements Kafkas.Topics, Kafkas.GroupIds {
     @Autowired
     ConsumerContainer consumerContainer;
 
+    @Autowired
+    ConcurrentConsumerContainer concurrentConsumerContainer;
+
     @PostConstruct
     public void init() {
+        initConcurrent();
+    }
+
+    public void initDefault() {
         new Thread(() -> {
             String groupId = myGroupId;
 
@@ -31,6 +38,24 @@ public class InitConsumer implements Kafkas.Topics, Kafkas.GroupIds {
 
             topic = test0;
             consumerContainer.stop(groupId, topic);
+            logger.info("+++ init stop, groupId:{}, topic:{}", groupId, topic);
+        }).start();
+    }
+
+    public void initConcurrent() {
+        new Thread(() -> {
+            String groupId = myGroupId;
+
+            String topic = test0;
+            concurrentConsumerContainer.start(groupId, topic, new MessageListenerExample());
+            logger.info("+++ init start, groupId:{}, topic:{}", groupId, topic);
+
+            topic = test1;
+            concurrentConsumerContainer.start(groupId, topic, new BatchMessageListenerExample());
+            logger.info("+++ init start, groupId:{}, topic:{}", groupId, topic);
+
+            topic = test0;
+            concurrentConsumerContainer.stop(groupId, topic);
             logger.info("+++ init stop, groupId:{}, topic:{}", groupId, topic);
         }).start();
     }
